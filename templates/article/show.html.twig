@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Article</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('uploads/'~ article.image) }}" alt="{{ article
+                    .title }}" style="max-width: 200px">
+                </td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ article.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ article.title }}</td>
+            </tr>
+            <tr>
+                <th>Contents</th>
+                <td>{{ article.Contents }}</td>
+            </tr>
+
+        </table>
+
+        <a href="{{ path('article_index') }}">back to list</a>
+        {# Access to who can delete the content #}
+        {% if app.user and (app.user == article.relation or app.user.hasRole("ROLE_ADMIN")) %}
+            <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+            {{ include('article/_delete_form.html.twig') }}
+        {% endif %}
+    </div>
+{% endblock %}
