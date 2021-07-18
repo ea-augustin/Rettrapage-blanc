@@ -31,10 +31,16 @@ class ArticleController extends AbstractController
     public function index(
         ArticleRepository $articleRepository
     ): Response {
+        $articles = [];
+        if ($this->getUser()->hasRole("ROLE_ADMIN")) {
+            $articles = $articleRepository->findAll();
+        } else {
+            $articles = $articleRepository->findby(["relation" => $this->getUser()]);
+        }
         return $this->render(
             'article/index.html.twig',
             [
-                'articles' => $articleRepository->findAll(),
+                'articles' => $articles,
             ]
         );
     }

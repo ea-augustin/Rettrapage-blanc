@@ -14,7 +14,12 @@
 
 {% block body %}
     <div class="container">
-    <h1>Article index</h1>
+        {% if app.user.hasRole("ROLE_ADMIN") %}
+            <h1>Article index</h1>
+        {% else %}
+            <h1>My Articles</h1>
+        {% endif %}
+
 
     <table class="table table_id">
         <thead>
